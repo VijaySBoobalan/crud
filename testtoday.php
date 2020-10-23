@@ -1,7 +1,33 @@
 <?php 
 	$foo = 10;
 	$bar = unset($foo);
-	echo $bar;
+
+	<?php
+$servername = "localhost";
+$username = "username";
+$password = "password";
+$dbname = "myDB";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "INSERT INTO MyGuests (firstname, lastname, email)
+VALUES ('John', 'Doe', 'john@example.com')";
+
+if ($conn->query($sql) === TRUE) {
+  echo "New record created successfully";
+} else {
+  echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+$conn->close();
+?>
+
+
 
 
 	$ch = curl_init('https://coderbyte.com/api/challenges/json/age-counting');
@@ -11,13 +37,5 @@
   	curl_close($ch);
 
   	print_r(json_decode($data)['data']);
-  	// foreach(json_decode($data, true)['data'] as $key=>$age){
-  	//   print_r($age);
-  	// }
 
 ?>
-
-Input: ["12:15PM-02:00PM","09:00AM-10:00AM","10:30AM-12:00PM"]
-Output: 00:30
-Input: ["12:15PM-02:00PM","09:00AM-12:11PM","02:02PM-04:00PM"]
-Output: 00:04
