@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,22 +13,15 @@
 |
 */
 
-Route::get('/', 'AdminAuth\LoginController@showLoginForm');
-
-Route::group(['prefix' => 'admin'], function () {
-  Route::get('/login', 'AdminAuth\LoginController@showLoginForm')->name('login');
-  Route::post('/login', 'AdminAuth\LoginController@login');
-  Route::post('/logout', 'AdminAuth\LoginController@logout')->name('logout');
-
-//  Route::get('/register', 'AdminAuth\RegisterController@showRegistrationForm')->name('register');
-//  Route::post('/register', 'AdminAuth\RegisterController@register');
-
-  Route::post('/password/email', 'AdminAuth\ForgotPasswordController@sendResetLinkEmail')->name('password.request');
-  Route::post('/password/reset', 'AdminAuth\ResetPasswordController@reset')->name('password.email');
-  Route::get('/password/reset', 'AdminAuth\ForgotPasswordController@showLinkRequestForm')->name('password.reset');
-  Route::get('/password/reset/{token}', 'AdminAuth\ResetPasswordController@showResetForm');
+Route::get('/', function () {
+    return view('welcome');
 });
 
-Route::get('/autocomplete', function () {
-    return 1;
-})->name('autocomplete');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('video', App\Http\Controllers\VideoUploadController::class);
+
+Route::POST('videos/update', [App\Http\Controllers\VideoUploadController::class,'updateVideo'])->name('updateVideo');
+
+// Route::resource('/news-content/news-paper', App\Http\Controllers\AdminController\NewsPaperController::class);
